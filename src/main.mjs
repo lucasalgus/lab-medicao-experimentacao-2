@@ -9,7 +9,7 @@ let lastCursor = null;
 
 const getQuery = () => gql`
   query Repos {
-    search(query: "stars:>10000", type: REPOSITORY, first: 100, after: ${
+    search(query: "language:Java", type: REPOSITORY, first: 100, after: ${
       lastCursor ? `"${lastCursor}"` : null
     }) {
       pageInfo {
@@ -18,29 +18,13 @@ const getQuery = () => gql`
       nodes {
         ... on Repository {
           nameWithOwner
-          url
+          sshUrl
           createdAt
           updatedAt
           stargazers {
             totalCount
           }
           releases {
-            totalCount
-          }
-		  pullRequests(states: MERGED) {
-			totalCount
-		  }
-          languages(orderBy: { field: SIZE, direction: DESC }, first: 1) {
-            edges {
-              node {
-                name
-              }
-            }
-          }
-          totalIssues: issues {
-            totalCount
-          }
-          closedIssues: issues(states: CLOSED) {
             totalCount
           }
         }
@@ -57,37 +41,35 @@ const main = async () => {
   try {
     for (let i = 0; i < 10; i++) {
       console.log("baixando página " + i);
-      const res = await client.query({
-        query: getQuery(),
-      });
+      try {
+        const res = await client.query({
+          query: getQuery(),
+        });
 
-      const { endCursor } = res.data.search.pageInfo;
-      lastCursor = endCursor;
+        const { endCursor } = res.data.search.pageInfo;
+        lastCursor = endCursor;
 
-      repos = [...repos, ...res.data.search.nodes];
+        repos = [...repos, ...res.data.search.nodes];
+      } catch (error) {
+        console.log("erro, tentando novamente");
+        i--;
+      }
     }
 
     const filteredRepos = repos.map((repo) => ({
       nameWithOwner: repo.nameWithOwner,
-      url: repo.url,
-      age: secondsToDays(
-        new Date().getTime() - new Date(repo.createdAt).getTime()
-      ),
-      mergedPRsCount: repo.pullRequests.totalCount,
+      sshUrl: repo.sshUrl,
+      starsCount: repo.stargazers.totalCount,
       releasesCount: repo.releases.totalCount,
-      lastUpdatedSince: secondsToDays(
-        new Date().getTime() - new Date(repo.updatedAt).getTime()
-      ),
-      primaryLanguage: repo.languages.edges[0]?.node.name ?? "Empty",
-      closedIssuesPercentage: repo.totalIssues.totalCount
-        ? (
-            (repo.closedIssues.totalCount / repo.totalIssues.totalCount) *
-            100
-          ).toFixed(2)
-        : 0,
+      ageInYears:
+        secondsToDays(
+          new Date().getTime() - new Date(repo.createdAt).getTime()
+        ) / 365,
     }));
 
-    const parser = new Parser();
+    const parser = new Parser({
+      quote: "",
+    });
     const csv = parser.parse(filteredRepos);
 
     fs.writeFileSync("./result.csv", csv);
