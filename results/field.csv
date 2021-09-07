@@ -1,0 +1,9 @@
+file,class,method,variable,usage
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,push/1[int],_data,1
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,push/1[int],_min,5
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,pop/0,_data,1
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,pop/0,_min,1
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,getMin/0,_min,1
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,top/0,_data,1
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,MinStack/0,_data,1
+/Users/bruno/Downloads/Lab/LeetCodeAnimation-master/0155-min-stack/Code/1.java,MinStack,MinStack/0,_min,1
