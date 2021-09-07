@@ -1,0 +1,32 @@
+{
+  "name": "lab-medicao-experimentacao-2",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "src/main.mjs",
+  "scripts": {
+    "start": "node src/main.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasalgus/lab-medicao-experimentacao-2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucasalgus/lab-medicao-experimentacao-2/issues"
+  },
+  "homepage": "https://github.com/lucasalgus/lab-medicao-experimentacao-2#readme",
+  "dependencies": {
+    "apollo-boost": "^0.4.9",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-context": "^1.0.20",
+    "apollo-link-http": "^1.5.17",
+    "dotenv": "^10.0.0",
+    "graphql": "^15.5.1",
+    "graphql-tag": "^2.12.5",
+    "json2csv": "^5.0.6",
+    "node-fetch": "^2.6.1"
+  }
+}
