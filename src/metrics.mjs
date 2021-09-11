@@ -19,6 +19,12 @@ const runClones = async (repos) => {
       await getQualityMetrics(repos[i]);
 
       console.log(repos[i]);
+      const parser = new Parser({
+        quote: "",
+      });
+      const file = parser.parse(repos);
+
+      fs.writeFileSync("./result.csv", file);
     } catch (error) {
       console.log("erro, tentando novamente");
       console.log(error);
@@ -54,7 +60,8 @@ const median = (values) => {
 };
 
 const getQualityMetrics = async (repo) => {
-  await execCommand("cd ck; java -jar ck.jar ../repo; cd ..");
+  const output = await execCommand("cd ck; java -jar ck.jar ../repo; cd ..");
+  console.log(output.stdout);
 
   const result = csv
     .formatValueByType()
@@ -83,13 +90,6 @@ const main = async () => {
     .getJsonFromCsv("./repos.csv");
 
   await runClones(repos);
-
-  const parser = new Parser({
-    quote: "",
-  });
-  const file = parser.parse(repos);
-
-  fs.writeFileSync("./result.csv", file);
 };
 
 main();
